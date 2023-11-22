@@ -65,7 +65,7 @@ module exterior()
 
 module interior()
 {
-  tc([boxWallXY, boxWallXY, boxWallZ], [boxInsideX, boxInsideY, boxInsideZ]);
+  tc([boxWallXY, boxWallXY, boxWallZ], [boxInsideX, boxInsideY, 100]);
 }
 
 module boxBottom()
@@ -88,7 +88,7 @@ module boxTop()
 {
   difference()
   {
-    box();
+    exterior();
     tc([-200, -200, bottomOffset-400], 400);
   }
   // Add the lip to fit inside the lower section:

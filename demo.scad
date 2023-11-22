@@ -14,7 +14,8 @@ module clip(d=0)
 if(developmentRender)
 {
 	display() boxBottom();
-    displayGhost() boxTop();
+    // display() boxTop();
+    // displayGhost() boxTop();
 }
 else
 {
