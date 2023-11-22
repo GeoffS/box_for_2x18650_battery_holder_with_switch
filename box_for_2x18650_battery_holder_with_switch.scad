@@ -11,12 +11,14 @@ batteryHolderHole1Y = 60.5;
 batteryHolderHole2X = 9.23;
 batteryHolderHole2Y = 20.6;
 
+topLipZ = 2;
+
 boxWallXY = 3;
 boxWallZ = 3;
 boxExteriorRadius = 8;
 boxInteriorRadius = boxExteriorRadius - boxWallXY;
 boxExteriorCZ = 3;
-boxTopZ = boxExteriorCZ+1;
+boxTopZ = boxExteriorCZ + 1;
 boxExteriorTopClip = boxExteriorRadius * 0.3;
 boxExteriorBottomClip = boxExteriorRadius * 0.3;
 
@@ -29,23 +31,22 @@ boxInsideZ = 10; // Overridden by external user code.
 
 echo(str("boxInsideZ = ", boxInsideZ));
 
-boxOutsideZ = boxInsideZ + 2*boxWallZ;
+bottomOffset = boxWallZ + boxInsideZ + topLipZ;
+echo(str("bottomOffset = ", bottomOffset));
+
+boxOutsideZ = bottomOffset + boxTopZ;
+
 echo(str("boxOutsideX, boxOutsideY, boxOutsideZ = ", boxOutsideX, ", ", boxOutsideY, ", ", boxOutsideZ));
-
-topLipZ = 2;
-
-bottomOffset = boxOutsideZ - boxTopZ;
 
 cornerX1 = boxExteriorRadius;
 cornerY1 = boxExteriorRadius;
 cornerX2 = boxOutsideX - boxExteriorRadius;
-cornerY2 = boxOutsideY - boxExteriorRadius;
+cornerY2 = boxOutsideY - boxExteriorRadius; 
 
 cornerXY1 = [cornerX1, cornerY1, 0];
 cornerXY2 = [cornerX2, cornerY1, 0];
 cornerXY3 = [cornerX1, cornerY2, 0];
 cornerXY4 = [cornerX2, cornerY2, 0];
-
 
 module box()
 {
