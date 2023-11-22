@@ -31,10 +31,10 @@ boxInsideZ = 10; // Overridden by external user code.
 
 echo(str("boxInsideZ = ", boxInsideZ));
 
-bottomOffset = boxWallZ + boxInsideZ + topLipZ;
-echo(str("bottomOffset = ", bottomOffset));
+boxBottomTopZ = boxWallZ + boxInsideZ + topLipZ;
+echo(str("boxBottomTopZ = ", boxBottomTopZ));
 
-boxOutsideZ = bottomOffset + boxTopZ;
+boxOutsideZ = boxBottomTopZ + boxTopZ;
 
 echo(str("boxOutsideX, boxOutsideY, boxOutsideZ = ", boxOutsideX, ", ", boxOutsideY, ", ", boxOutsideZ));
 
@@ -102,7 +102,7 @@ module boxBottom()
     box();
 
     // Trim off the top:
-    tc([-200, -200, bottomOffset], 400);
+    tc([-200, -200, boxBottomTopZ], 400);
 
     // Make the holes to mount the battery holder:
     batteryHolderHoleDia = 2.9;
@@ -117,10 +117,10 @@ module boxTop()
   difference()
   {
     exterior();
-    tc([-200, -200, bottomOffset-400], 400);
+    tc([-200, -200, boxBottomTopZ-400], 400);
   }
   // Add the lip to fit inside the lower section:
-  // %tc([boxWallXY+boxTopLipOffsetXY, boxWallXY+boxTopLipOffsetXY, bottomOffset-topLipZ], [boxInsideX-2*boxTopLipOffsetXY, boxInsideY-2*boxTopLipOffsetXY, topLipZ]);
+  // %tc([boxWallXY+boxTopLipOffsetXY, boxWallXY+boxTopLipOffsetXY, boxBottomTopZ-topLipZ], [boxInsideX-2*boxTopLipOffsetXY, boxInsideY-2*boxTopLipOffsetXY, topLipZ]);
   hull()
   {
     boxTopLipCorner(boxInteriorX1, boxInteriorY1);
@@ -132,5 +132,5 @@ module boxTop()
 
 module boxTopLipCorner(x, y)
 {
-  translate([x, y, bottomOffset]) mirror([0,0,1]) simpleChamferedCylinder(d=boxInteriorDia-2*boxTopLipOffsetXY, h=topLipZ, cz=0.6);
+  translate([x, y, boxBottomTopZ]) mirror([0,0,1]) simpleChamferedCylinder(d=boxInteriorDia-2*boxTopLipOffsetXY, h=topLipZ, cz=0.6);
 }
