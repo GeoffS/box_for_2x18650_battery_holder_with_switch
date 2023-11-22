@@ -57,7 +57,7 @@ module box()
 }
 
 boxExteriorDia = 2*boxExteriorRadius;
-boxExteriorCZ = 2;
+boxExteriorCZ = 3;
 module exterior()
 {
   hull()
