@@ -95,6 +95,9 @@ module boxInteriorCorner(x, y)
     tsp([x, y, 100], d=boxInteriorDia);
 }
 
+batteryLeadsHoleDia = 3;
+batteryLeadsHoleX = 6.3;
+
 module boxBottom()
 {
   difference()
@@ -106,15 +109,29 @@ module boxBottom()
 
     // Make the holes to mount the battery holder:
     batteryHolderHoleDia = 2.9;
-    batteryLeadsHoleDia = 3;
 
     tcy([batteryHolderHole1X, batteryHolderHole1Y, -5], d=batteryHolderHoleDia, h=10);
     tcy([batteryHolderHole2X, batteryHolderHole2Y, -5], d=batteryHolderHoleDia, h=10);
 
-    // Hole for the battery leads to enter:
-    batteryLeadsHoleX = 6.3; //boxWallXY+batteryLeadsHoleDia/2+boxInteriorDia/2;
-    translate([batteryLeadsHoleX, boxOutsideY-boxWallXY/2, boxWallZ+batteryLeadsHoleDia/2+boxInteriorDia/2]) 
-      rotate([90,0,0]) tcy([0,0,-10], d=batteryLeadsHoleDia, h=20);
+    // Hole for the battery leads to enter
+    batteryLeadsHoleY = boxOutsideY-boxWallXY/2; 
+    batteryLeadsHoleZ = boxWallZ+batteryLeadsHoleDia/2+boxInteriorDia/2;
+
+    translate([batteryLeadsHoleX, batteryLeadsHoleY, batteryLeadsHoleZ]) 
+    {
+      quarterTorus(torusOffset=2.85);
+      rotate([0, -90, 0]) mirror([0,1,0]) quarterTorus(torusOffset=3.0);
+    }
+  }
+}
+
+module quarterTorus(torusOffset)
+{
+  translate([0, 0, -torusOffset]) rotate([0,90,0]) difference()
+  {
+    torus2a(batteryLeadsHoleDia/2, torusOffset);
+    tcu([nothing, -50, -50], 100);
+    tcu([-50, -100-nothing, -50], 100);
   }
 }
 
