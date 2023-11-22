@@ -14,6 +14,7 @@ batteryHolderHole2Y = 20.6;
 boxWallXY = 3;
 boxWallZ = 3;
 boxExteriorRadius = 3;
+boxTopZ = 3;
 boxExteriorTopClip = boxExteriorRadius * 0.3;
 boxExteriorBottomClip = boxExteriorRadius * 0.3;
 
@@ -63,9 +64,31 @@ module exterior()
   }
 }
 
+boxInteriorDia = 3;
+boxInteriorRadius = boxInteriorDia/2;
 module interior()
 {
-  tc([boxWallXY, boxWallXY, boxWallZ], [boxInsideX, boxInsideY, 100]);
+  hull()
+  {
+    x1 = boxWallXY + boxInteriorRadius;
+    y1 = boxWallXY + boxInteriorRadius;
+
+    x2 = x1 + boxInsideX - boxInteriorDia;
+    y2 = y1 + boxInsideY - boxInteriorDia;
+
+    boxInteriorCorner(x1, y1);
+    boxInteriorCorner(x2, y1);
+    boxInteriorCorner(x1, y2);
+    boxInteriorCorner(x2, y2);
+  }
+}
+
+module boxInteriorCorner(x, y)
+{
+    z1 = boxWallZ + boxInteriorRadius;
+
+    tsp([x, y, z1], d=boxInteriorDia);
+    tsp([x, y, 100], d=boxInteriorDia);
 }
 
 module boxBottom()
@@ -75,7 +98,7 @@ module boxBottom()
     box();
 
     // Trim off the top:
-    tc([-200, -200, boxOutsideZ-boxExteriorRadius-nothing], 400);
+    tc([-200, -200, boxOutsideZ-boxTopZ-nothing], 400);
 
     // Make the holes to mount the battery holder:
     batteryHolderHoleDia = 2.9;
