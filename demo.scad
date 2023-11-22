@@ -9,6 +9,7 @@ boxInsideZ = 25;
 module clip(d=0)
 {
     // tc([-200, boxOutsideY/2-d, -200], [400, 400, 400]);
+    rotate([0,0,45]) tcu([-200, 0, -200], 400);
 }
 
 if(developmentRender)

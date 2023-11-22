@@ -13,7 +13,8 @@ batteryHolderHole2Y = 20.6;
 
 boxWallXY = 3;
 boxWallZ = 3;
-boxExteriorRadius = 3;
+boxExteriorRadius = 8;
+boxInteriorRadius = boxExteriorRadius - boxWallXY;
 boxTopZ = 3;
 boxExteriorTopClip = boxExteriorRadius * 0.3;
 boxExteriorBottomClip = boxExteriorRadius * 0.3;
@@ -23,7 +24,7 @@ boxOutsideY = batteryHolderY;
 
 boxInsideX = boxOutsideX - 2*boxWallXY;
 boxInsideY = boxOutsideY - 2*boxWallXY;
-boxInsideZ = 10;
+boxInsideZ = 10; // Overridden by external user code.
 
 echo(str("boxInsideZ = ", boxInsideZ));
 
@@ -35,12 +36,16 @@ topLipZ = 1.5;
 
 bottomOffset = boxOutsideZ-boxExteriorRadius;
 
-extX1 = 0;
-extY1 = 0;
-extZ1 = 0 - boxExteriorBottomClip;
-extX2 = boxOutsideX;
-extY2 = boxOutsideY;
-extZ2 = boxOutsideZ + boxExteriorTopClip;
+cornerX1 = boxExteriorRadius;
+cornerY1 = boxExteriorRadius;
+cornerX2 = boxOutsideX - boxExteriorRadius;
+cornerY2 = boxOutsideY - boxExteriorRadius;
+
+cornerXY1 = [cornerX1, cornerY1, 0];
+cornerXY2 = [cornerX2, cornerY1, 0];
+cornerXY3 = [cornerX1, cornerY2, 0];
+cornerXY4 = [cornerX2, cornerY2, 0];
+
 
 module box()
 {
@@ -51,21 +56,20 @@ module box()
   }
 }
 
-boxExteriorDia = 2*boxWallXY;
+boxExteriorDia = 2*boxExteriorRadius;
 boxExteriorCZ = 2;
 module exterior()
 {
   hull()
   {
-    translate([extX1+boxWallXY, extY1+boxWallXY, 0]) simpleChamferedCylinderDoubleEnded(boxExteriorDia, boxOutsideZ, boxExteriorCZ);
-    translate([extX1+boxWallXY, extY2-boxWallXY, 0]) simpleChamferedCylinderDoubleEnded(boxExteriorDia, boxOutsideZ, boxExteriorCZ);
-    translate([extX2-boxWallXY, extY1+boxWallXY, 0]) simpleChamferedCylinderDoubleEnded(boxExteriorDia, boxOutsideZ, boxExteriorCZ);
-    translate([extX2-boxWallXY, extY2-boxWallXY, 0]) simpleChamferedCylinderDoubleEnded(boxExteriorDia, boxOutsideZ, boxExteriorCZ);
+    translate(cornerXY1) simpleChamferedCylinderDoubleEnded(boxExteriorDia, boxOutsideZ, boxExteriorCZ);
+    translate(cornerXY2) simpleChamferedCylinderDoubleEnded(boxExteriorDia, boxOutsideZ, boxExteriorCZ);
+    translate(cornerXY3) simpleChamferedCylinderDoubleEnded(boxExteriorDia, boxOutsideZ, boxExteriorCZ);
+    translate(cornerXY4) simpleChamferedCylinderDoubleEnded(boxExteriorDia, boxOutsideZ, boxExteriorCZ);
   }
 }
 
-boxInteriorDia = 3;
-boxInteriorRadius = boxInteriorDia/2;
+boxInteriorDia = 2*boxInteriorRadius;
 module interior()
 {
   hull()
