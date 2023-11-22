@@ -106,8 +106,15 @@ module boxBottom()
 
     // Make the holes to mount the battery holder:
     batteryHolderHoleDia = 2.9;
+    batteryLeadsHoleDia = 3;
+
     tcy([batteryHolderHole1X, batteryHolderHole1Y, -5], d=batteryHolderHoleDia, h=10);
     tcy([batteryHolderHole2X, batteryHolderHole2Y, -5], d=batteryHolderHoleDia, h=10);
+
+    // Hole for the battery leads to enter:
+    batteryLeadsHoleX = 6.3; //boxWallXY+batteryLeadsHoleDia/2+boxInteriorDia/2;
+    translate([batteryLeadsHoleX, boxOutsideY-boxWallXY/2, boxWallZ+batteryLeadsHoleDia/2+boxInteriorDia/2]) 
+      rotate([90,0,0]) tcy([0,0,-10], d=batteryLeadsHoleDia, h=20);
   }
 }
 
