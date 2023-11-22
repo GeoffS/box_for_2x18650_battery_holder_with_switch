@@ -15,8 +15,12 @@ module clip(d=0)
 if(developmentRender)
 {
 	display() boxBottom();
-    // display() boxTop();
+    display() translate([0,0,0.1]) boxTop();
     // displayGhost() boxTop();
+
+    // display() boxTop();
+    // display() #boxBottom();
+    // displayGhost() boxBottom();
 }
 else
 {

@@ -15,7 +15,8 @@ boxWallXY = 3;
 boxWallZ = 3;
 boxExteriorRadius = 8;
 boxInteriorRadius = boxExteriorRadius - boxWallXY;
-boxTopZ = 3;
+boxExteriorCZ = 3;
+boxTopZ = boxExteriorCZ+1;
 boxExteriorTopClip = boxExteriorRadius * 0.3;
 boxExteriorBottomClip = boxExteriorRadius * 0.3;
 
@@ -28,13 +29,12 @@ boxInsideZ = 10; // Overridden by external user code.
 
 echo(str("boxInsideZ = ", boxInsideZ));
 
-
 boxOutsideZ = boxInsideZ + 2*boxWallZ;
 echo(str("boxOutsideX, boxOutsideY, boxOutsideZ = ", boxOutsideX, ", ", boxOutsideY, ", ", boxOutsideZ));
 
-topLipZ = 1.5;
+topLipZ = 2;
 
-bottomOffset = boxOutsideZ-boxExteriorRadius;
+bottomOffset = boxOutsideZ - boxTopZ;
 
 cornerX1 = boxExteriorRadius;
 cornerY1 = boxExteriorRadius;
@@ -57,7 +57,6 @@ module box()
 }
 
 boxExteriorDia = 2*boxExteriorRadius;
-boxExteriorCZ = 3;
 module exterior()
 {
   hull()
@@ -70,20 +69,20 @@ module exterior()
 }
 
 boxInteriorDia = 2*boxInteriorRadius;
+boxInteriorX1 = boxWallXY + boxInteriorRadius;
+boxInteriorY1 = boxWallXY + boxInteriorRadius;
+
+boxInteriorX2 = boxInteriorX1 + boxInsideX - boxInteriorDia;
+boxInteriorY2 = boxInteriorY1 + boxInsideY - boxInteriorDia;
+
 module interior()
 {
   hull()
   {
-    x1 = boxWallXY + boxInteriorRadius;
-    y1 = boxWallXY + boxInteriorRadius;
-
-    x2 = x1 + boxInsideX - boxInteriorDia;
-    y2 = y1 + boxInsideY - boxInteriorDia;
-
-    boxInteriorCorner(x1, y1);
-    boxInteriorCorner(x2, y1);
-    boxInteriorCorner(x1, y2);
-    boxInteriorCorner(x2, y2);
+    boxInteriorCorner(boxInteriorX1, boxInteriorY1);
+    boxInteriorCorner(boxInteriorX2, boxInteriorY1);
+    boxInteriorCorner(boxInteriorX1, boxInteriorY2);
+    boxInteriorCorner(boxInteriorX2, boxInteriorY2);
   }
 }
 
@@ -102,7 +101,7 @@ module boxBottom()
     box();
 
     // Trim off the top:
-    tc([-200, -200, boxOutsideZ-boxTopZ-nothing], 400);
+    tc([-200, -200, bottomOffset], 400);
 
     // Make the holes to mount the battery holder:
     batteryHolderHoleDia = 2.9;
@@ -111,6 +110,7 @@ module boxBottom()
   }
 }
 
+boxTopLipOffsetXY = 0.1;
 module boxTop()
 {
   difference()
@@ -119,6 +119,17 @@ module boxTop()
     tc([-200, -200, bottomOffset-400], 400);
   }
   // Add the lip to fit inside the lower section:
-  oXY = 0.1;
-  tc([boxWallXY+oXY, boxWallXY+oXY, bottomOffset-topLipZ], [boxInsideX-2*oXY, boxInsideY-2*oXY, topLipZ]);
+  // %tc([boxWallXY+boxTopLipOffsetXY, boxWallXY+boxTopLipOffsetXY, bottomOffset-topLipZ], [boxInsideX-2*boxTopLipOffsetXY, boxInsideY-2*boxTopLipOffsetXY, topLipZ]);
+  hull()
+  {
+    boxTopLipCorner(boxInteriorX1, boxInteriorY1);
+    boxTopLipCorner(boxInteriorX2, boxInteriorY1);
+    boxTopLipCorner(boxInteriorX1, boxInteriorY2);
+    boxTopLipCorner(boxInteriorX2, boxInteriorY2);
+  }
+}
+
+module boxTopLipCorner(x, y)
+{
+  translate([x, y, bottomOffset]) mirror([0,0,1]) simpleChamferedCylinder(d=boxInteriorDia-2*boxTopLipOffsetXY, h=topLipZ, cz=0.6);
 }
