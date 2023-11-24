@@ -5,8 +5,8 @@ use <../OpenSCADdesigns/torus.scad>
 batteryHolderX = 42.7;
 batteryHolderY = 92;
 
-batteryHolderHole1X = 33.2;
-batteryHolderHole1Y = 60.5;
+batteryHolderHole1X = 33.5;
+batteryHolderHole1Y = 61;
 
 batteryHolderHole2X = 9.23;
 batteryHolderHole2Y = 20.6;
@@ -110,7 +110,7 @@ module boxBottom()
     // Make the holes to mount the battery holder:
     batteryHolderHoleDia = 2.85;
 
-    tcy([batteryHolderHole1X, batteryHolderHole1Y, -5], d=batteryHolderHoleDia, h=10);
+    #tcy([batteryHolderHole1X, batteryHolderHole1Y, -5], d=batteryHolderHoleDia, h=10);
     tcy([batteryHolderHole2X, batteryHolderHole2Y, -5], d=batteryHolderHoleDia, h=10);
 
     // Hole for the battery leads to enter
