@@ -120,7 +120,7 @@ module boxBottom()
     translate([batteryLeadsHoleX, batteryLeadsHoleY, batteryLeadsHoleZ]) 
     {
       quarterTorus(torusOffset=2.85);
-      rotate([0, -90, 0]) mirror([0,1,0]) quarterTorus(torusOffset=3.0);
+      rotate([0, -45, 0]) mirror([0,1,0]) quarterTorus(torusOffset=3.07);
     }
   }
 }
