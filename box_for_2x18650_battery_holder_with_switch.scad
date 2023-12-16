@@ -98,7 +98,27 @@ module boxInteriorCorner(x, y)
 batteryLeadsHoleDia = 3;
 batteryLeadsHoleX = 6.3;
 
-module boxBottom()
+module boxBottomWithSideLeads()
+{
+  difference()
+  {
+    basicBoxBottom();
+
+    sideBatteryLeadsHole();
+  }
+}
+
+module boxBottomWithBottomLeads()
+{
+  difference()
+  {
+    basicBoxBottom();
+
+    bottomBatteryLeadsHole();
+  }
+}
+
+module basicBoxBottom()
 {
   difference()
   {
@@ -112,8 +132,13 @@ module boxBottom()
 
     tcy([batteryHolderHole1X, batteryHolderHole1Y, -5], d=batteryHolderHoleDia, h=10);
     tcy([batteryHolderHole2X, batteryHolderHole2Y, -5], d=batteryHolderHoleDia, h=10);
+  }
+}
 
-    // Hole for the battery leads to enter
+module sideBatteryLeadsHole()
+{
+    // Hole for the battery leads to enter from the side, just above the exit
+    // in the battery-box.
     batteryLeadsHoleY = boxOutsideY-boxWallXY/2; 
     batteryLeadsHoleZ = boxWallZ+batteryLeadsHoleDia/2+boxInteriorDia/2;
 
@@ -121,6 +146,24 @@ module boxBottom()
     {
       quarterTorus(torusOffset=2.85);
       rotate([0, -45, 0]) mirror([0,1,0]) quarterTorus(torusOffset=3.07);
+    }
+}
+
+module bottomBatteryLeadsHole()
+{
+  translate([boxOutsideX-15.5, boxOutsideY-7.75, 0])
+  {
+    // Hole for the battery leads to enter from below:
+    d = (11/64)*mm_per_inch;
+    tcy([0,0, -10], d=d, h=100);
+
+    // Chamfering in box:
+    cz = 3.7;
+    cd = cz*2;
+    translate([0,0, boxWallZ-d/2-1.5]) 
+    {
+      cylinder(d1=0, d2=cd, h=cz);
+      tcy([0,0,cz-nothing], d=cd, h=10);
     }
   }
 }
