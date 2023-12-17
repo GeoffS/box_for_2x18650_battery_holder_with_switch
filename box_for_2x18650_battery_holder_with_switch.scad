@@ -151,7 +151,7 @@ module sideBatteryLeadsHole()
 
 module bottomBatteryLeadsHole()
 {
-  translate([boxOutsideX-15.5, boxOutsideY-7.75, 0])
+  translate([15.5, boxOutsideY-7.75, 0])
   {
     // Hole for the battery leads to enter from below:
     d = (3/16)*mm_per_inch;
@@ -160,7 +160,7 @@ module bottomBatteryLeadsHole()
     // Chamfering in box:
     cz = 3.7;
     cd = cz*2;
-    translate([0,0, boxWallZ-d/2-1.5]) 
+    translate([0,0, boxWallZ-d/2-1.29]) 
     {
       cylinder(d1=0, d2=cd, h=cz);
       tcy([0,0,cz-nothing], d=cd, h=10);
