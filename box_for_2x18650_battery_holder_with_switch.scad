@@ -69,9 +69,11 @@ module exterior()
   }
 }
 
+bottomCZ = 1.5;
 module boxCornerCylinder()
 {
   simpleChamferedCylinderDoubleEnded(boxExteriorDia, boxOutsideZ, boxExteriorCZ);
+  cylinder(d2=boxExteriorDia, d1=boxExteriorDia-2*bottomCZ, h=bottomCZ);
 }
 
 boxInteriorDia = 2*boxInteriorRadius;
