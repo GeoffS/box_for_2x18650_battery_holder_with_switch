@@ -62,11 +62,16 @@ module exterior()
 {
   hull()
   {
-    translate(cornerXY1) simpleChamferedCylinderDoubleEnded(boxExteriorDia, boxOutsideZ, boxExteriorCZ);
-    translate(cornerXY2) simpleChamferedCylinderDoubleEnded(boxExteriorDia, boxOutsideZ, boxExteriorCZ);
-    translate(cornerXY3) simpleChamferedCylinderDoubleEnded(boxExteriorDia, boxOutsideZ, boxExteriorCZ);
-    translate(cornerXY4) simpleChamferedCylinderDoubleEnded(boxExteriorDia, boxOutsideZ, boxExteriorCZ);
+    translate(cornerXY1) boxCornerCylinder();
+    translate(cornerXY2) boxCornerCylinder();
+    translate(cornerXY3) boxCornerCylinder();
+    translate(cornerXY4) boxCornerCylinder();
   }
+}
+
+module boxCornerCylinder()
+{
+  simpleChamferedCylinderDoubleEnded(boxExteriorDia, boxOutsideZ, boxExteriorCZ);
 }
 
 boxInteriorDia = 2*boxInteriorRadius;
